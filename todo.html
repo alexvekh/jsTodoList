@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS To Do List</title>
+</head>
+<body>
+
+        <script>
+            let todo1 = 'Get groceries';
+            let todo2 = 'Wash car';
+            let todo3 = 'Make dinner';
+
+
+            let btn = document.createElement('button');
+            btn.innerText = 'Click me';
+            document.body.appendChild(btn);
+
+            newPageTitle = 'The title has changed!';
+            document.querySelector('title').textContent = newPageTitle;
+
+            function addTodo(todoTitle){
+                let element = document.createElement('div'); //div
+                element.innerText = todoTitle;                  //todo1 inside
+                document.body.appendChild(element);         //inside <body>
+            }
+
+            addTodo(todo1);
+            addTodo(todo2);
+            addTodo(todo3);
+
+
+        </script>
+</body>
+</html>
+
