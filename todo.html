@@ -38,7 +38,7 @@
                 const datePicker = document.getElementById('date-picker');
                 const dueDate = datePicker.value;
 
-                const id = new Date().getTime();
+                const id = '' + new Date().getTime();
                 todos.push({
                             title: title, dueDate: dueDate, id: id,
                             });
@@ -52,8 +52,12 @@
                 const idToDelete = deleteButton.id;
 
                 todos = todos.filter(function(todo){
-                    if (todo.id === isToDelete) {return false;}
-                    else {return true;}
+                    //id = idToDelete -> false
+                    if (todo.id === idToDelete) {
+                        return false;
+                    } else {
+                        return true;
+                    }
                 });
                 render();
             }
@@ -69,7 +73,7 @@
                 const deleteButton = document.createElement('button');
                 deleteButton.innerText = 'Delete';
                 deleteButton.style = 'margin-left: 12px; background-color: red;';
-                deleteButton.onclick = deleteTodo();
+                deleteButton.onclick = deleteTodo;
                 deleteButton.id = todo.id;
                 element.appendChild(deleteButton);
 
