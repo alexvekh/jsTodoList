@@ -14,29 +14,25 @@
     <div id="todo-list"></div>
         
         <script>
-
-
-            let todos = [
+            let todos;
+            const savedTodos = JSON.parse(localStorage.getItem('todos'));
+            if (Array.isArray(savedTodos)){
+                todos = savedTodos;
+            } else {
+              todos = [
                 {title: 'Get groceries', dueDate: '2023-04-15', id: 'id1'}, 
                 {title: 'Wash car', dueDate: '2023-04-19', id: 'id2'}, 
                 {title: 'Make dinner', dueDate: '2023-04-21', id: 'id3'}, 
                 {title: 'Do laundry', dueDate: '2023-04-27', id: 'id4'}];
+            }
             render();
-
-            // todos.forEach(function (todoTitle) {
-            //     let element = document.createElement('div'); //div
-            //     element.innerText = todoTitle;              //todo1 inside
-            //     document.body.appendChild(element);        //inside <body>
-
-            //         render();
-            // });
-
-
+//Controller
             function createTodo(title, dueDate){
                 const id = '' + new Date().getTime();
                 todos.push({
                             title: title, dueDate: dueDate, id: id,
                             });
+                saveTodos();
             }
 
             function removeTodo(idToDelete) {
@@ -48,6 +44,12 @@
                         return true;
                     }
                 });
+                saveTodos();
+            }
+
+            function saveTodos(){
+                localStorage.setItem('todos', JSON.stringify(todos));
+
             }
 
             function addTodo() {
@@ -58,8 +60,7 @@
                 const dueDate = datePicker.value;
 
                 createTodo(title, dueDate);
-                
-
+        
                 render();
             }
 
@@ -71,7 +72,7 @@
                 removeTodo(idToDelete);
                 render();
             }
-                //View
+//View
             function render() {
                 // reset list
                 document.getElementById('todo-list').innerHTML = '';
@@ -92,11 +93,6 @@
 
             });
         }
-
-  
-
-
-
 
         </script>
 </body>
