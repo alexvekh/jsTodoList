@@ -5,34 +5,64 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JS To Do List</title>
+    <style>
+        body {background-color: black; color: bisque}
+        div {text}
+
+    </style>
 </head>
 <body>
 
     <input id="todo-title" type="text" />
-    <input id="date-picker" type="date" />
-    <button onclick="addTodo()">Add Todo</button>
-    <div id="todo-list"></div>
+    <button onclick="addTodo()">Add Todo</button><br /><br />
+    <div id="todo-list"></div><br/>
+    <button onclick="newDay()">New Day</button>
+    
         
         <script>
-            let todos;
-            const savedTodos = JSON.parse(localStorage.getItem('todos'));
+            let todos
+            
+            const savedTodos  = JSON.parse(localStorage.getItem('todos'));
             if (Array.isArray(savedTodos)){
                 todos = savedTodos;
             } else {
               todos = [
-                {title: 'Get groceries', dueDate: '2023-04-15', id: 'id1'}, 
-                {title: 'Wash car', dueDate: '2023-04-19', id: 'id2'}, 
-                {title: 'Make dinner', dueDate: '2023-04-21', id: 'id3'}, 
-                {title: 'Do laundry', dueDate: '2023-04-27', id: 'id4'}];
+                {title: 'Get groceries', id: 'id1'}, 
+                {title: 'Wash car', id: 'id2'}, 
+                {title: 'Make dinner', id: 'id3'}, 
+                {title: 'Do laundry', id: 'id4'}];
             }
             render();
-//Controller
+            
+            function newDay(){
+                let today = new Date().toLocaleDateString();
+                //let today2 = new Date().getDate();
+                //const currentMonth = date.getMonth();
+                //const t = 'today1 + '; 
+                
+                document.createElement('hr');
+                let id0 = ''+1+ new Date().getTime();
+                        todos.push({title: ' ___ Today: '+today, id: id0});
+                let id1 = ''+2+ new Date().getTime();
+                        todos.push({title: 'Course homework', id: id1});
+                let id2 = ''+3 + new Date().getTime();
+                        todos.push({title: 'Job', id: id2});
+                let id3 = ''+4 + new Date().getTime();
+                        todos.push({title: 'Coding 30 min sessoin', id: id3});
+                let id4 = ''+5 + new Date().getTime();
+                        todos.push({title: 'Coding 30 min session', id: id3});
+
+                saveTodos();
+                render();
+            }
+
+            
             function createTodo(title, dueDate){
                 const id = '' + new Date().getTime();
                 todos.push({
-                            title: title, dueDate: dueDate, id: id,
+                            title: title, id: id,
                             });
-                saveTodos();
+
             }
 
             function removeTodo(idToDelete) {
@@ -55,12 +85,7 @@
             function addTodo() {
                 const textbox = document.getElementById('todo-title');
                 const title = textbox.value;
-
-                const datePicker = document.getElementById('date-picker');
-                const dueDate = datePicker.value;
-
-                createTodo(title, dueDate);
-        
+                createTodo(title);     
                 render();
             }
 
@@ -79,7 +104,7 @@
 
                 todos.forEach(function (todo) {
                 let element = document.createElement('div'); 
-                element.innerText = todo.title + ' ' + todo.dueDate;         
+                element.innerText = todo.title;         
                 
                 const deleteButton = document.createElement('button');
                 deleteButton.innerText = 'Delete';
