@@ -7,8 +7,8 @@
     <title>JS To Do List</title>
     <style>
         body {background-color: black; color: bisque}
-        div {text}
-
+        input {background-color: rgb(227, 200, 165);} 
+        button {background-color: rgb(165, 128, 78);}
     </style>
 </head>
 <body>
@@ -16,110 +16,160 @@
     <input id="todo-title" type="text" />
     <button onclick="addTodo()">Add Todo</button><br /><br />
     <div id="todo-list"></div><br/>
-    <button onclick="newDay()">New Day</button>
-    
+    <button onclick="newDay()">New Day</button> <span id="newday"></span>
         
-        <script>
-            let todos
-            
-            const savedTodos  = JSON.parse(localStorage.getItem('todos'));
-            if (Array.isArray(savedTodos)){
-                todos = savedTodos;
-            } else {
-              todos = [
-                {title: 'Get groceries', id: 'id1'}, 
-                {title: 'Wash car', id: 'id2'}, 
-                {title: 'Make dinner', id: 'id3'}, 
-                {title: 'Do laundry', id: 'id4'}];
+<script>
+    let todos
+  
+    const savedTodos  = JSON.parse(localStorage.getItem('todos'));
+    if (Array.isArray(savedTodos)){
+        todos = savedTodos;
+    } else {
+        todos = [
+        {title: 'Get groceries', id: '1id1', isTimer: false}, 
+        {title: 'Wash car', id: '1id2', isTimer: false}, 
+        {title: 'Make dinner', id: '1id3', isTimer: false}];
+    }
+    render();
+    
+    function findObjectByKey(todos, title, today) {
+        for (var i = 0; i < todos.length; i++) {
+            if (todos[i].title === today) {
+                return true;
             }
+        }
+        return false;
+    }
+
+    function newDay(){
+        //let today = new Date().getDate();  // только число
+        let today = new Date().toLocaleDateString();  // дата
+        
+        if (findObjectByKey(todos, todos.title, today)) //=== ) / //=== todos.every())
+        {
+            document.getElementById('newday').innerHTML = 'You already got this tasks';
+        } else {
+            let id0 = ''+0+ new Date().getTime();
+                    todos.push({title: today, id: id0, isTimer: false});             
+                    //todos.push({title: ' . . . Date: '+today, id: id0, isTimer: false});
+            let id1 = ''+1+ new Date().getTime();
+                    todos.push({title: 'IT-brain course homework  ', id: id1, isTimer: false});
+            let id2 = ''+2 + new Date().getTime();
+                    todos.push({title: 'My Job . . . . . . . . . . . . . . . .', id: id2});
+            let id3 = ''+3 + new Date().getTime();
+                    todos.push({title: 'Java-coding 30 min session', id: id3, isTimer: true});
+            let id4 = ''+4 + new Date().getTime();
+                    todos.push({title: 'Java-coding 30 min session', id: id4, isTimer: true});
+            let id5 = ''+5 + new Date().getTime();
+                    todos.push({title: 'live-coding 30 min session ', id: id5, isTimer: true});
+            let id6 = ''+6 + new Date().getTime();
+                    todos.push({title: 'live-coding 30 min session ', id: id6, isTimer: true});
+            let id7 = ''+7 + new Date().getTime();
+                    todos.push({title: 'Learn JS    30 min session . . ', id: id7, isTimer: true});
+            let id8 = ''+8 + new Date().getTime();
+                    todos.push({title: 'Learn JS    30 min session . . ', id: id8, isTimer: true});
+            let id9 = ''+9 + new Date().getTime();
+                    todos.push({title: 'Exercises on the floor . . . . ', id: id9, isTimer: true});
+            let id10 = ''+10 + new Date().getTime();
+                    todos.push({title: 'Sending a resume . . . . . . . ', id: id10, isTimer: false});
+            let id11 = ''+11 + new Date().getTime();
+                    todos.push({title: 'Close 5 tabs . . . . . . . . . . . .', id: id11, isTimer: false});
+
+            saveTodos();
             render();
-            
-            function newDay(){
-                let today = new Date().toLocaleDateString();
-                //let today2 = new Date().getDate();
-                //const currentMonth = date.getMonth();
-                //const t = 'today1 + '; 
-                
-                document.createElement('hr');
-                let id0 = ''+1+ new Date().getTime();
-                        todos.push({title: ' ___ Today: '+today, id: id0});
-                let id1 = ''+2+ new Date().getTime();
-                        todos.push({title: 'Course homework', id: id1});
-                let id2 = ''+3 + new Date().getTime();
-                        todos.push({title: 'Job', id: id2});
-                let id3 = ''+4 + new Date().getTime();
-                        todos.push({title: 'Coding 30 min sessoin', id: id3});
-                let id4 = ''+5 + new Date().getTime();
-                        todos.push({title: 'Coding 30 min session', id: id3});
+        }
+    }
+    
+function createTodo(title, dueDate){
+        const id = '' + new Date().getTime();
+        todos.push({
+                    title: title, id: id, isTimer: false,
+                    });
 
-                saveTodos();
-                render();
+    }
+
+function removeTodo(idToDelete) {
+        todos = todos.filter(function(todo){
+            //id = idToDelete -> false
+            if (todo.id === idToDelete) {
+                return false;
+            } else {
+                return true;
             }
+        });
+        saveTodos();
+    }
 
-            
-            function createTodo(title, dueDate){
-                const id = '' + new Date().getTime();
-                todos.push({
-                            title: title, id: id,
-                            });
+function saveTodos(){
+        localStorage.setItem('todos', JSON.stringify(todos));
 
-            }
+    }
 
-            function removeTodo(idToDelete) {
-                todos = todos.filter(function(todo){
-                    //id = idToDelete -> false
-                    if (todo.id === idToDelete) {
-                        return false;
-                    } else {
-                        return true;
-                    }
-                });
-                saveTodos();
-            }
+function addTodo() {
+        const textbox = document.getElementById('todo-title');
+        const title = textbox.value;
+        createTodo(title);     
+        render();
+    }
 
-            function saveTodos(){
-                localStorage.setItem('todos', JSON.stringify(todos));
+function deleteTodo(event){
+        //console.log(event);
+        const deleteButton = event.target;
+        const idToDelete = deleteButton.id;
 
-            }
-
-            function addTodo() {
-                const textbox = document.getElementById('todo-title');
-                const title = textbox.value;
-                createTodo(title);     
-                render();
-            }
-
-            function deleteTodo(event){
-                //console.log(event);
-                const deleteButton = event.target;
-                const idToDelete = deleteButton.id;
-
-                removeTodo(idToDelete);
-                render();
-            }
+        removeTodo(idToDelete);
+        render();
+    }
 //View
-            function render() {
-                // reset list
-                document.getElementById('todo-list').innerHTML = '';
+function render() {
+        // reset list
+        document.getElementById('todo-list').innerHTML = '';
 
-                todos.forEach(function (todo) {
-                let element = document.createElement('div'); 
-                element.innerText = todo.title;         
-                
-                const deleteButton = document.createElement('button');
-                deleteButton.innerText = 'Delete';
-                deleteButton.style = 'margin-left: 12px; background-color: red;';
-                deleteButton.onclick = deleteTodo;
-                deleteButton.id = todo.id;
-                element.appendChild(deleteButton);
-
-                const todoList = document.getElementById('todo-list');
-                todoList.appendChild(element);     
-
-            });
+        todos.forEach(function (todo) {
+        let element = document.createElement('div'); 
+        element.innerText = todo.title;         
+        
+        const deleteButton = document.createElement('button');
+        deleteButton.innerText = 'Delete';
+        deleteButton.style = 'margin-left: 12px; margin-right: 12px; background-color: red;';
+        deleteButton.onclick = deleteTodo;  this.onclick=null;
+        deleteButton.id = todo.id;
+        element.appendChild(deleteButton);
+        if (todo.isTimer === true)
+        {
+            const timer30 = document.createElement('a');
+            timer30.innerText = '30:00';
+            timer30.id = 'a'+todo.id;
+            timer30.onclick = timer;
+            element.appendChild(timer30);
         }
 
-        </script>
+function timer (event){
+    const timer30 = event.target;
+    const idToTimer = timer30.id;
+    console.log('idToTimer: ' + idToTimer + ' -   timer30.id: ' + timer30.id);
+
+    const countdownEl = document.getElementById(idToTimer);
+    let time = 1800;
+    setInterval(() => {               
+        let minutes = Math.floor(time/60);
+        let seconds = time % 60;
+        seconds = seconds < 10 ? '0' + seconds : seconds;
+
+        countdownEl.innerHTML = `${minutes}:${seconds}`;
+        time--;
+        if (time < 1) {
+            countdownEl.innerHTML = 'Done';
+            return 'done';
+            } 
+        console.log(time +'='+ minutes +':'+ seconds);
+    }, 1000);             
+    }
+        const todoList = document.getElementById('todo-list');
+        todoList.appendChild(element);     
+    });
+}
+
+</script>
 </body>
 </html>
-
